@@ -3,7 +3,7 @@ CONFIG = (function(){
 	//self invoking config function
 
 	var conf_info = {};
-	conf_info["url"] = 'http://stocksearch.itzugpsbwa.us-west-2.elasticbeanstalk.com/';
+	conf_info["url"] = 'https://calm-eyrie-69052.herokuapp.com/';
 	conf_info["dataType"] = 'json';
 	conf_info["fbAppId"] = "800728840030941";
 	return{    
@@ -312,18 +312,19 @@ $(document).ready(function() {
 			},
 			success: function(output){
 				$("#newsFeedBody").empty();
-				var len = (output.d.results).length;
-				for(var i=0;i<output.d.results.length;i++){
+				var output = output.value;
+				var len = (output).length;
+				for(var i=0;i<len;i++){
 					var div = document.createElement('div');
 					var $newDiv = $("<div/>").addClass("well well-sm").css('width','98%').css('margin','auto').css('margin-top','20px');
 					//div.addClass("well well-sm");
 				
-					var formattedTitle = output.d.results[i].Title;
-					var publisher = output.d.results[i].Source;
-					var formattedLinkTitle = formattedTitle.link(output.d.results[i].Url);	 
-					var formattedTime =	moment(output.d.results[i].Date).format('DD MMMM YYYY hh:mm:ss '); 
+					var formattedTitle = output[i].name;
+					var publisher = output[i].provider[0].name;
+					var formattedLinkTitle = formattedTitle.link(output[i].url);	 
+					var formattedTime =	moment(output[i].datePublished).format('DD MMMM YYYY hh:mm:ss '); 
 
-					$newDiv.html(formattedLinkTitle+"<br/><br/>" +output.d.results[i].Description+"<br/><br/>"+"<strong>Publisher: "+publisher+"</strong><br/><br/><strong>Date: "+formattedTime+"</strong><br/><br/>");	
+					$newDiv.html(formattedLinkTitle+"<br/><br/>" +output[i].description+"<br/><br/>"+"<strong>Publisher: "+publisher+"</strong><br/><br/><strong>Date: "+formattedTime+"</strong><br/><br/>");	
 					$('#newsFeedBody').append($newDiv);
 				}
 			}				
