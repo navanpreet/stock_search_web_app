@@ -18,7 +18,7 @@
 			)
 		));
 		$symbol = $_GET["company"];
-	    $json = json_decode(file_get_contents('https://api.cognitive.microsoft.com/bing/v5.0/news/search?q='.urlencode($symbol).'&count=10&offset=0&mkt=en-us&safeSearch=Moderate', false, $context));
+	    $json = json_decode(file_get_contents('https://api.cognitive.microsoft.com/bing/v5.0/news/search?q='.urlencode($symbol).'&count=10&offset=0&mkt=en-us&safeSearch=Moderate', false, $context);
 	    echo json_encode($json);
 	}
 	else if(isset($_GET["chart"])){

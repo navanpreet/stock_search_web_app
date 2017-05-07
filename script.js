@@ -50,10 +50,10 @@ $(document).ready(function() {
 			success: function(output){
 				var fancyChange = parseFloat(output.Change).toFixed(2) +' ('+ parseFloat(output.ChangePercent).toFixed(2)+'%)';
 				if(output.Change>0){
-					$("#favoriteTable tr").eq(i).html('<td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:green">'+fancyChange+'<img src="http://cs-server.usc.edu:45678/hw/hw8/images/up.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td>') ;
+					$("#favoriteTable tr").eq(i).html('<td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:green">'+fancyChange+'<img src="images/up.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td>') ;
 				}
 				else if(output.Change<0){
-					$("#favoriteTable tr").eq(i).html('<td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:red">'+fancyChange+'<img src="http://cs-server.usc.edu:45678/hw/hw8/images/down.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td>');
+					$("#favoriteTable tr").eq(i).html('<td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:red">'+fancyChange+'<img src="images/down.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td>');
 				}
 				else{
 					$("#favoriteTable tr").eq(i).html('<td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'>'+fancyChange+'</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td>') ;
@@ -133,10 +133,10 @@ $(document).ready(function() {
 					changePercent = roundedChangePercent;
 					
 					if(roundedChange>0){
-						var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: green;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/up.png'>"+ntd+ntr;
+						var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: green;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/up.png'>"+ntd+ntr;
 					}
 					else
-						var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: red;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/down.png'>"+ntd+ntr;
+						var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: red;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/down.png'>"+ntd+ntr;
 
 					var formattedTime =	moment(output.Timestamp).format('DD MMMM YYYY, h:mm:ss a'); 
 
@@ -148,9 +148,9 @@ $(document).ready(function() {
 					var roundedChangePercentYTD = Math.round(output.ChangePercentYTD * 100) / 100;
 					var td10 = '';
 					if(roundedChangePercentYTD>0){
-						td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: green;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/up.png'>"+ntd+ntr;
+						td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: green;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/up.png'>"+ntd+ntr;
 					} else { 
-						td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: red;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/down.png'>"+ntd+ntr;
+						td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: red;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/down.png'>"+ntd+ntr;
 					}	
 					var td12=tr+th+"High"+nth+td+"$ "+(Math.round(output.High*100)/100)+ntd+ntr;
 					var td13=tr+th+"Low"+nth+td+"$ "+(Math.round(output.Low*100)/100)+ntd+ntr;
@@ -263,10 +263,10 @@ $(document).ready(function() {
 							changePercent = roundedChangePercent;
 							
 							if(roundedChange>0){
-								var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: green;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/up.png'>"+ntd+ntr;
+								var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: green;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/up.png'>"+ntd+ntr;
 							}
 							else{
-								var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: red;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/down.png'>"+ntd+ntr;
+								var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: red;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/down.png'>"+ntd+ntr;
 							}
 
 							var formattedTime =	moment(output.Timestamp).format('DD MMMM YYYY, h:mm:ss a'); 
@@ -281,12 +281,12 @@ $(document).ready(function() {
 
 							if(roundedChangePercentYTD>0){
 
-								var td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: green;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/up.png'>"
+								var td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: green;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/up.png'>"
 								+ntd+ntr;
 
 							}
 
-							else td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: red;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/down.png'>"+ntd+ntr;
+							else td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: red;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/down.png'>"+ntd+ntr;
 
 							var td12=tr+th+"High"+nth+td+"$ "+(Math.round(output.High*100)/100)+ntd+ntr;
 							var td13=tr+th+"Low"+nth+td+"$ "+(Math.round(output.Low*100)/100)+ntd+ntr;
@@ -346,9 +346,9 @@ $(document).ready(function() {
 						var newValue = parseFloat(output.Change).toFixed(2) +' ('+ parseFloat(output.ChangePercent).toFixed(2) +'%)';
 						$("#price"+output.Symbol).html(output.LastPrice);
 						if(output.Change>0)
-							$("#change"+output.Symbol).html(newValue+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/up.png'>");
+							$("#change"+output.Symbol).html(newValue+"<img src='images/up.png'>");
 						else if(output.change<0)
-							$("#change"+output.Symbol).html(newValue+"<img src='http://cs-server.usc.edu:45678/hw/hw8/images/down.png'>");
+							$("#change"+output.Symbol).html(newValue+"<img src='images/down.png'>");
 					}
 				});
 			}
@@ -563,10 +563,10 @@ $(document).ready(function() {
 						success: function(output){
 							var fancyChange = parseFloat(output.Change).toFixed(2) +' ('+ parseFloat(output.ChangePercent).toFixed(2)+'%)';
 							if(output.Change>0){
-								$("#favoriteTable").append('<tr><td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:green">'+fancyChange+'<img src="http://cs-server.usc.edu:45678/hw/hw8/images/up.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td></tr>') ;
+								$("#favoriteTable").append('<tr><td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:green">'+fancyChange+'<img src="images/up.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td></tr>') ;
 							}
 							else if(output.Change<0){
-								$("#favoriteTable").append('<tr><td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:red">'+fancyChange+'<img src="http://cs-server.usc.edu:45678/hw/hw8/images/down.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td></tr>');
+								$("#favoriteTable").append('<tr><td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:red">'+fancyChange+'<img src="images/down.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td></tr>');
 							}
 							else
 								$("#favoriteTable").append('<tr><td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'>'+fancyChange+'</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td></tr>');
