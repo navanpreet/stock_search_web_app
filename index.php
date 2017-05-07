@@ -11,8 +11,15 @@
 		echo $json;
 	}
 	else if(isset($_GET["company"])){
+		$opts = array(
+		  'http'=>array(
+		   'method'=>"GET",
+		   'header'=> "Ocp-Apim-Subscription-Key: 76d97da5029940e297dafb85894d20fa"
+		  )
+		);
+		$context = stream_context_create($opts);
 		$symbol = $_GET["company"];
-	    $json = json_decode(file_get_contents('https://ajax.googleapis.com/ajax/services/search/news?v=1.0&q='.urlencode($symbol).'&userip=68.181.195.44'));
+	    $json = json_decode(file_get_contents('https://api.cognitive.microsoft.com/bing/v5.0/news/search?q='.urlencode($symbol).'&count=10&offset=0&mkt=en-us&safeSearch=Moderate', false, $context);
 	    echo json_encode($json);
 	}
 	else if(isset($_GET["chart"])){
