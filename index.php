@@ -11,13 +11,12 @@
 		echo $json;
 	}
 	else if(isset($_GET["company"])){
-		$opts = array(
-		  'http'=>array(
-		   'method'=>"GET",
-		   'header'=> "Ocp-Apim-Subscription-Key: 76d97da5029940e297dafb85894d20fa"
-		  )
-		);
-		$context = stream_context_create($opts);
+		$context = stream_context_create(array(
+			'http' => array(
+				'method' => 'GET',
+				'header'=> "Ocp-Apim-Subscription-Key: 76d97da5029940e297dafb85894d20fa"
+			)
+		));
 		$symbol = $_GET["company"];
 	    $json = json_decode(file_get_contents('https://api.cognitive.microsoft.com/bing/v5.0/news/search?q='.urlencode($symbol).'&count=10&offset=0&mkt=en-us&safeSearch=Moderate', false, $context);
 	    echo json_encode($json);
