@@ -47,9 +47,6 @@ body {
 	left: 300px;
 }
 
-#myTabContent {
-
-}
 
 #myTable {
 	position: relative;
@@ -239,6 +236,5 @@ hr {
   	}
   	#historicalSpan {
   		display: none;
-  	}
-  
+  	} 
 }

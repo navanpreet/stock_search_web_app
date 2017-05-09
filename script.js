@@ -63,6 +63,9 @@ $(document).ready(function() {
 	}
 
 	function formatFunction(number){
+
+		//formatting market capitalization into Billions and Millions 
+
 		var billionThreshold = Math.floor(number/1000000000);
         var formattedMarketCapBillion = number/1000000000;
         var millionThreshold = Math.floor(number/1000000);
@@ -82,6 +85,9 @@ $(document).ready(function() {
 
 
 	$(document).on('click','#favoriteTableLink', function(e){
+
+		//fetching all details, char and news for a saved stock
+
 		symbol = $('td:first',$(this).closest('tr')).text();
 		getNews(symbol);
 		getChart(symbol);
@@ -89,6 +95,7 @@ $(document).ready(function() {
 		var checkSymbols = JSON.parse(localStorage.getItem("symbol"));
 		if(checkSymbols != null){
 			if(checkSymbols.indexOf(symbol)!=-1){
+				//changing the color of a star to yellow if it's already in local storage
 				$("#saveButton").css('color','yellow');
 			}
 		}
@@ -107,63 +114,16 @@ $(document).ready(function() {
 				}
 				else {
 					$("#myCarousel").carousel("next");
-					hideErrorMessage();
-					var pic = document.getElementById("rightImage");
-					pic.src = 'http://chart.finance.yahoo.com/t?s='+symbol+'&lang=en-US&width=400&height=300';
-					var table = $("<table class = \"table table-striped\">").attr("id","mytable");
-					$("#rightBody").append(table);
-					var tr="<tr>";
-					var ntr="</tr>";
-					var th="<th>";
-					var nth="</th>";
-					var td="<td>";
-					var ntd="</td>";
-				    var td1=tr+th+"Name"+nth+td+output.Name+ntd+ntr;
-				    name = output.Name;
-				    var td2=tr+th+"Symbol"+nth+td+output.Symbol+ntd+ntr;
-				     
-				    var roundedLastPrice = Math.round(output.LastPrice * 100) / 100;
-				    price = roundedLastPrice;
-
-					var td3=tr+th+"Last Price"+nth+td+"$ "+roundedLastPrice+ntd+ntr;
-
-					var roundedChange = parseFloat(output.Change).toFixed(2);
-					change = roundedChange;
-					var roundedChangePercent = parseFloat(output.ChangePercent).toFixed(2);
-					changePercent = roundedChangePercent;
-					
-					if(roundedChange>0){
-						var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: green;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/up.png'>"+ntd+ntr;
-					}
-					else
-						var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: red;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/down.png'>"+ntd+ntr;
-
-					var formattedTime =	moment(output.Timestamp).format('DD MMMM YYYY, h:mm:ss a'); 
-
-					var td6=tr+th+"Timestamp"+nth+td+formattedTime+ntd+ntr;
-					marketCap = output.MarketCap;
-					var td8=tr+th+"Market Cap"+nth+td+formatFunction(output.MarketCap)+ntd+ntr;
-					var td9=tr+th+"Volume"+nth+td+output.Volume+ntd+ntr;
-					var roundedChangeYTD = Math.round(output.ChangeYTD * 100) / 100;
-					var roundedChangePercentYTD = Math.round(output.ChangePercentYTD * 100) / 100;
-					var td10 = '';
-					if(roundedChangePercentYTD>0){
-						td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: green;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/up.png'>"+ntd+ntr;
-					} else { 
-						td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: red;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/down.png'>"+ntd+ntr;
-					}	
-					var td12=tr+th+"High"+nth+td+"$ "+(Math.round(output.High*100)/100)+ntd+ntr;
-					var td13=tr+th+"Low"+nth+td+"$ "+(Math.round(output.Low*100)/100)+ntd+ntr;
-					var td14=tr+th+"Open"+nth+td+"$ "+(Math.round(output.Open*100)/100)+ntd+ntr;
-
-					$("#mytable").html(td1+td2+td3+td4+td6+td8+td9+td10+td12+td13+td14);
-					$("#rightBody").append("</table>");
+					renderTable(symbol, output);
 				}
 			}
 		});	
 	})
 
 	$('#name').autocomplete({
+
+		//jQueryui autocomplete
+
 		source: function(request, response){
 			$.ajax({
 				url: CONFIG.getValue('url'),
@@ -175,6 +135,7 @@ $(document).ready(function() {
 				success: function(output){
 					response($.map(output, function(item){
 						return {
+							//names rendered for each field in autocomplete
 							label: item.Symbol +' - '+ item.Name+' ('+item.Exchange+')',
 							value: item.Symbol
 						}
@@ -196,8 +157,8 @@ $(document).ready(function() {
 	}
 
 	$(function(){
-		$("#clear").on('click',function(e){
-			e.preventDefault();
+		//clear button
+		$("#clear").on('click',function(){
 			$("#name").val("");
 			$("#rightButton").attr('disabled','true');
 			hideErrorMessage();
@@ -205,9 +166,9 @@ $(document).ready(function() {
 	})
 
 	$(function(){
-		$("#inputForm").submit(function(e){
+		$("#inputForm").submit(function(event){
 			symbol = $("#name").val();
-			e.preventDefault();
+			event.preventDefault();
 			var checkSymbols = JSON.parse(localStorage.getItem("symbol"));
 			if(checkSymbols != null){
 				if(checkSymbols.indexOf(symbol)!=-1){
@@ -233,68 +194,9 @@ $(document).ready(function() {
 							showErrorMessage();
 						}
 						else {
-							getNews(symbol);
-							getChart(symbol);
 							$("#rightButton").removeAttr('disabled');
 							$("#myCarousel").carousel("next");
-							hideErrorMessage();
-							var pic = document.getElementById("rightImage");
-							pic.src = 'http://chart.finance.yahoo.com/t?s='+symbol+'&lang=en-US&width=400&height=300';
-							var table = $("<table class = \"table table-striped\">").attr("id","mytable");
-							$("#rightBody").append(table);
-							var tr="<tr>";
-							var ntr="</tr>";
-							var th="<th>";
-							var nth="</th>";
-							var td="<td>";
-							var ntd="</td>";
-						    var td1=tr+th+"Name"+nth+td+output.Name+ntd+ntr;
-						    name = output.Name;
-						    var td2=tr+th+"Symbol"+nth+td+output.Symbol+ntd+ntr;
-						     
-						    var roundedLastPrice = Math.round(output.LastPrice * 100) / 100;
-						    price = roundedLastPrice;
-
-							var td3=tr+th+"Last Price"+nth+td+"$ "+roundedLastPrice+ntd+ntr;
-
-							var roundedChange = Math.round(output.Change * 100) / 100;
-							change = roundedChange;
-							var roundedChangePercent = Math.round(output.ChangePercent * 100) / 100;
-							changePercent = roundedChangePercent;
-							
-							if(roundedChange>0){
-								var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: green;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/up.png'>"+ntd+ntr;
-							}
-							else{
-								var td4=tr+th+"Change (ChangePercent)"+nth+"<td style='color: red;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/down.png'>"+ntd+ntr;
-							}
-
-							var formattedTime =	moment(output.Timestamp).format('DD MMMM YYYY, h:mm:ss a'); 
-
-							var td6=tr+th+"Timestamp"+nth+td+formattedTime+ntd+ntr;
-		
-							var td8=tr+th+"Market Cap"+nth+td+formatFunction(output.MarketCap)+ntd+ntr;
-							marketCap = output.MarketCap;
-							var td9=tr+th+"Volume"+nth+td+output.Volume+ntd+ntr;
-							var roundedChangeYTD = Math.round(output.ChangeYTD * 100) / 100;
-							var roundedChangePercentYTD = Math.round(output.ChangePercentYTD * 100) / 100;
-
-							if(roundedChangePercentYTD>0){
-
-								var td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: green;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/up.png'>"
-								+ntd+ntr;
-
-							}
-
-							else td10 = tr+th+"Change YTD (ChangePercent YTD)"+nth+"<td style='color: red;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/down.png'>"+ntd+ntr;
-
-							var td12=tr+th+"High"+nth+td+"$ "+(Math.round(output.High*100)/100)+ntd+ntr;
-							var td13=tr+th+"Low"+nth+td+"$ "+(Math.round(output.Low*100)/100)+ntd+ntr;
-							var td14=tr+th+"Open"+nth+td+"$ "+(Math.round(output.Open*100)/100)+ntd+ntr;
-
-							$("#mytable").html(td1+td2+td3+td4+td6+td8+td9+td10+td12+td13+td14);
-							$("#rightBody").append("</table>");
-
+							renderTable(symbol, output);
 						}
 					}
 				}
@@ -317,8 +219,8 @@ $(document).ready(function() {
 				for(var i=0;i<len;i++){
 					var div = document.createElement('div');
 					var $newDiv = $("<div/>").addClass("well well-sm").css('width','98%').css('margin','auto').css('margin-top','20px');
-					//div.addClass("well well-sm");
-				
+
+					//contents of each div
 					var formattedTitle = output[i].name;
 					var publisher = output[i].provider[0].name;
 					var formattedLinkTitle = formattedTitle.link(output[i].url);	 
@@ -333,6 +235,7 @@ $(document).ready(function() {
 
 	function savedTableUpdate(){
 		var savedSymbols = JSON.parse(localStorage.getItem("symbol"));
+		// make ajax requests for all saved stocks one by one
 		if(savedSymbols != null){
 			for(var i = 0; i<savedSymbols.length; i++){
 				$.ajax({
@@ -344,7 +247,7 @@ $(document).ready(function() {
 					},
 					success: function(output){
 						var newValue = parseFloat(output.Change).toFixed(2) +' ('+ parseFloat(output.ChangePercent).toFixed(2) +'%)';
-						$("#price"+output.Symbol).html(output.LastPrice);
+						$("#price"+output.Symbol).html('$ '+output.LastPrice);
 						if(output.Change>0)
 							$("#change"+output.Symbol).html(newValue+"<img src='images/up.png'>");
 						else if(output.change<0)
@@ -492,6 +395,7 @@ $(document).ready(function() {
 		});
 	};
 
+	//code from facebook sdk
 	(function(d, s, id){
 		var js, fjs = d.getElementsByTagName(s)[0];
 		if (d.getElementById(id)) {
@@ -503,10 +407,10 @@ $(document).ready(function() {
 	}(document, 'script', 'facebook-jssdk'));
 
 	$(document).on('click','#shareButton',function(e){
+		
 		e.preventDefault();
-		var hell = $('#rightImageBody').children('img').attr('src');
-
 		FB.ui({
+			// sharing screen on facebook
 			method: 'share',
 			title: 'Current Stock Price of '+name+' is '+price,
 			href: 'http://dev.markitondemand.com/MODApis/',
@@ -527,6 +431,8 @@ $(document).ready(function() {
 	});
 
 	$('#favoriteTable').on('click', '.trash', function() {
+
+		//delete from table
 		$(this).closest('tr').remove();		
 		var sym = $('td:first',$(this).closest('tr')).text();
 		deleteFromLocalStorage(sym);
@@ -535,11 +441,9 @@ $(document).ready(function() {
 
 	$(function(){
 		$("#saveButton").click(function(e){
-
 			var currentColor = $("#saveButton").css('color');
 			if(currentColor == "rgb(255, 255, 0)"){
 				$("#saveButton").css('color','white');
-				//deleteFromLocalStorage(symbol);
 				deleteFromTable(symbol);
 			}
 			else{
@@ -561,6 +465,7 @@ $(document).ready(function() {
 							name: symbol
 						},
 						success: function(output){
+							//formatting fields in fav table
 							var fancyChange = parseFloat(output.Change).toFixed(2) +' ('+ parseFloat(output.ChangePercent).toFixed(2)+'%)';
 							if(output.Change>0){
 								$("#favoriteTable").append('<tr><td><a href="" id="favoriteTableLink">'+output.Symbol+"<a href=''>"+'</td><td>'+output.Name+'</td><td id="price'+output.Symbol+'">'+'$ '+output.LastPrice+'</td><td id="change'+output.Symbol+'" style="color:green">'+fancyChange+'<img src="images/up.png"</td><td>'+formatFunction(output.MarketCap)+'</td><td><button class="btn btn-default trash" id="trash"><span class="glyphicon glyphicon-trash"></span></button></td></tr>') ;
@@ -601,10 +506,75 @@ $(document).ready(function() {
 		deleteFromLocalStorage(symb);
 	}
 
+	function renderTable(symbol, output){
+		getNews(symbol);
+		getChart(symbol);
+		hideErrorMessage();
+		var pic = document.getElementById("rightImage");
+		pic.src = 'http://chart.finance.yahoo.com/t?s='+symbol+'&lang=en-US&width=400&height=300';
+		var table = $("<table class = \"table table-striped\">").attr("id","mytable");
+		$("#rightBody").append(table);
+		var tr="<tr>";
+		var ntr="</tr>";
+		var th="<th>";
+		var nth="</th>";
+		var td="<td>";
+		var ntd="</td>";
+	    var nameField=tr+th+"Name"+nth+td+output.Name+ntd+ntr;
+	    name = output.Name;
+	    var symbolField=tr+th+"Symbol"+nth+td+output.Symbol+ntd+ntr;
+	     
+	    var roundedLastPrice = Math.round(output.LastPrice * 100) / 100;
+	    price = roundedLastPrice;
+
+		var lastPriceField=tr+th+"Last Price"+nth+td+"$ "+roundedLastPrice+ntd+ntr;
+
+		var roundedChange = Math.round(output.Change * 100) / 100;
+		change = roundedChange;
+		var roundedChangePercent = Math.round(output.ChangePercent * 100) / 100;
+		changePercent = roundedChangePercent;
+		
+		if(roundedChange>0){
+			var changeField=tr+th+"Change (Change Percent)"+nth+"<td style='color: green;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/up.png'>"+ntd+ntr;
+		}
+		else{
+			var changeField=tr+th+"Change (Change Percent)"+nth+"<td style='color: red;'>"+roundedChange+" ("+roundedChangePercent+"%) "+"<img src='images/down.png'>"+ntd+ntr;
+		}
+
+		var formattedTime =	moment(output.Timestamp).format('DD MMMM YYYY, h:mm:ss a'); 
+
+		var timeField=tr+th+"Timestamp"+nth+td+formattedTime+ntd+ntr;
+
+		var marketCapField=tr+th+"Market Cap"+nth+td+formatFunction(output.MarketCap)+ntd+ntr;
+		marketCap = output.MarketCap;
+		var volumeField=tr+th+"Volume"+nth+td+output.Volume+ntd+ntr;
+		var roundedChangeYTD = Math.round(output.ChangeYTD * 100) / 100;
+		var roundedChangePercentYTD = Math.round(output.ChangePercentYTD * 100) / 100;
+
+		if(roundedChangePercentYTD>0){
+
+			var ytdField = tr+th+"Change YTD (Change Percent YTD)"+nth+"<td style='color: green;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/up.png'>"
+			+ntd+ntr;
+
+		} else {
+
+			ytdField = tr+th+"Change YTD (Change Percent YTD)"+nth+"<td style='color: red;'>"+roundedChangeYTD+" ("+roundedChangePercentYTD+"%) "+"<img src='images/down.png'>"+ntd+ntr;
+		
+		}	
+		var highField=tr+th+"High"+nth+td+"$ "+(Math.round(output.High*100)/100)+ntd+ntr;
+		var lowField=tr+th+"Low"+nth+td+"$ "+(Math.round(output.Low*100)/100)+ntd+ntr;
+		var openField=tr+th+"Open"+nth+td+"$ "+(Math.round(output.Open*100)/100)+ntd+ntr;
+
+		$("#mytable").html(nameField+symbolField+lastPriceField+changeField+timeField+marketCapField+volumeField+ytdField+highField+lowField+openField);
+		$("#rightBody").append("</table>");
+
+	}
+
 	$("#rightButton").click(function() {
 		$('.carousel').carousel('next');
 	})
     $("#leftButton").click(function() {
         $('.carousel').carousel('prev');
     })
+
 });		
